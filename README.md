@@ -1,11 +1,10 @@
+#Sigil Studio 
 
-# Sigil Studio
-
-A procedural sigil generator built with JavaScript.
+A procedural sigil generator built with Javascript.
 
 ## Goals
 
-- Learn JavaScript
-- Learn Canvas
-- Learn Git
-- Build a portfolio project
+Learn Javascript
+Learn Canvas
+Learn Git
+Build a portfolio Project 
