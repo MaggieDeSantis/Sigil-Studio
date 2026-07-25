@@ -3,15 +3,11 @@ const ctx = canvas.getContext("2d");
 
 const centerX = 250;
 const centerY = 250;
+const radius = 100;
+const numberOfPoints= 12;
 
 const button = document.getElementById("generateBtn");
 
-const points = [
-    [centerX, centerY - 100], // top 
-    [centerX + 100, centerY], // right
-    [centerX, centerY + 100], // bottom
-    [centerX - 100, centerY], // left
-]
 
 button.addEventListener("click", drawCircle);
 
@@ -30,12 +26,32 @@ function drawCircle(){
     ctx.arc(centerX, centerY, 3, 0, Math.PI * 2);
     ctx.fill();
 
-//other points
-    for (const point of points) {
-        ctx.beginPath(); 
-        ctx.arc(point[0], point[1], 5, 0, Math.PI * 2);
-        ctx.fill();
+    const generatedPoints = [];
 
-    }
+    for (let i = 0; i < numberOfPoints; i++) {
+        const angle = (Math.PI * 2 / numberOfPoints) * i - Math.PI / 2;
+        const pointX = centerX + Math.cos(angle) * radius;
+        const pointY = centerY + Math.sin(angle) * radius;
+
+        generatedPoints.push([pointX, pointY]);
+        ctx.beginPath();
+        ctx.arc(pointX, pointY, 5, 0, Math.PI * 2);
+        ctx.fill();
+        }
+    
+        ctx.beginPath();
+
+        ctx.moveTo(
+            generatedPoints[0][0],
+            generatedPoints[0][1]
+        );
+
+        ctx.lineTo(
+            generatedPoints[3][0],
+            generatedPoints[3][1]
+        );
+
+        ctx.lineWidth = 3;
+        ctx.stroke();
 }
 
