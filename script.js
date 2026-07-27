@@ -21,7 +21,7 @@ function drawCircle(){
     ctx.lineWidth = 4;
     ctx.stroke();
 
-//center
+//center dot
     ctx.beginPath();
     ctx.arc(centerX, centerY, 3, 0, Math.PI * 2);
     ctx.fill();
@@ -38,20 +38,26 @@ function drawCircle(){
         ctx.arc(pointX, pointY, 5, 0, Math.PI * 2);
         ctx.fill();
         }
+
     
-        ctx.beginPath();
+const sigilPath = [0, 4 , 9, 2, 11, 6, 1];
+ctx.beginPath()
 
-        ctx.moveTo(
-            generatedPoints[0][0],
-            generatedPoints[0][1]
-        );
+ctx.moveTo(
+    generatedPoints[sigilPath[0]][0],
+    generatedPoints[sigilPath[0]][1]
+);
 
-        ctx.lineTo(
-            generatedPoints[3][0],
-            generatedPoints[3][1]
-        );
+for (let i = 1; i <sigilPath.length; i++){
+    const pointIndex = sigilPath[i];
 
-        ctx.lineWidth = 3;
-        ctx.stroke();
+    ctx.lineTo(
+        generatedPoints[pointIndex][0],
+        generatedPoints[pointIndex][1]
+    );
+
 }
 
+ctx.lineWidth = 3;
+ctx.stroke();
+}
