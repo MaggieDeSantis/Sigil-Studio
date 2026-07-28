@@ -14,12 +14,8 @@ button.addEventListener("click", drawCircle);
 function drawCircle(){
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
-
-//create circle
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, 100, 0, Math.PI * 2);
-    ctx.lineWidth = 4;
-    ctx.stroke();
+    
+    drawOuterCircle();
 
 //center dot
     ctx.beginPath();
@@ -40,7 +36,7 @@ function drawCircle(){
         }
 
     
-const sigilPath = [0, 4 , 9, 2, 11, 6, 1];
+const sigilPath = [0, 4 , 9, 2, 7, 6, 1];
 ctx.beginPath()
 
 ctx.moveTo(
@@ -60,4 +56,12 @@ for (let i = 1; i <sigilPath.length; i++){
 
 ctx.lineWidth = 3;
 ctx.stroke();
+
+function drawOuterCircle() {
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+}
 }
