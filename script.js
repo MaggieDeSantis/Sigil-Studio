@@ -16,15 +16,30 @@ function drawCircle(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     
     drawOuterCircle();
+    drawCenterPoint();
 
-//center dot
+    const generatedPoints = generatePoints();
+
+    drawSigil(generatedPoints);
+    }
+
+function drawOuterCircle() {
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    ctx.lineWidth = 4;
+    ctx.stroke();
+}
+
+function drawCenterPoint() {
     ctx.beginPath();
     ctx.arc(centerX, centerY, 3, 0, Math.PI * 2);
     ctx.fill();
+}
 
+function generatePoints() {
     const generatedPoints = [];
 
-    for (let i = 0; i < numberOfPoints; i++) {
+        for (let i = 0; i < numberOfPoints; i++) {
         const angle = (Math.PI * 2 / numberOfPoints) * i - Math.PI / 2;
         const pointX = centerX + Math.cos(angle) * radius;
         const pointY = centerY + Math.sin(angle) * radius;
@@ -34,34 +49,29 @@ function drawCircle(){
         ctx.arc(pointX, pointY, 5, 0, Math.PI * 2);
         ctx.fill();
         }
+    return generatedPoints;
 
+}
+
+function drawSigil(generatedPoints) {
+    const sigilPath = [0, 4 , 9, 2, 7, 6, 1];
+    ctx.beginPath()
     
-const sigilPath = [0, 4 , 9, 2, 7, 6, 1];
-ctx.beginPath()
-
-ctx.moveTo(
-    generatedPoints[sigilPath[0]][0],
-    generatedPoints[sigilPath[0]][1]
-);
-
-for (let i = 1; i <sigilPath.length; i++){
-    const pointIndex = sigilPath[i];
-
-    ctx.lineTo(
-        generatedPoints[pointIndex][0],
-        generatedPoints[pointIndex][1]
+    ctx.moveTo(
+        generatedPoints[sigilPath[0]][0],
+        generatedPoints[sigilPath[0]][1]
     );
 
-}
+    for (let i = 1; i <sigilPath.length; i++){
+        const pointIndex = sigilPath[i];
 
-ctx.lineWidth = 3;
-ctx.stroke();
+        ctx.lineTo(
+            generatedPoints[pointIndex][0],
+            generatedPoints[pointIndex][1]
+        );
 
-function drawOuterCircle() {
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-    ctx.lineWidth = 4;
+    }
+
+    ctx.lineWidth = 3;
     ctx.stroke();
-
-}
 }
