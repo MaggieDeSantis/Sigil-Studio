@@ -6,12 +6,26 @@ const centerY = 250;
 const radius = 100;
 const numberOfPoints= 12;
 
+const alphabet = [
+    "A", "B", "C", "D", "E", "F",
+    "G", "H", "I", "J", "K", "L",
+    "M", "N", "O", "P", "Q", "R",
+    "S", "T", "U", "V", "W", "X",
+    "Y", "Z"
+]
+
 const button = document.getElementById("generateBtn");
 
 
-button.addEventListener("click", drawCircle);
+button.addEventListener("click", function () {
+    const word = document.getElementById("wordInput").value;
+    
+    console.log(word);
 
-function drawCircle(){
+    drawCircle(word);
+});
+
+function drawCircle(word){
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
     
@@ -20,7 +34,7 @@ function drawCircle(){
 
     const generatedPoints = generatePoints();
 
-    drawSigil(generatedPoints);
+    drawSigil(generatedPoints, word);
     }
 
 function drawOuterCircle() {
@@ -53,9 +67,19 @@ function generatePoints() {
 
 }
 
-function drawSigil(generatedPoints) {
-    const sigilPath = [0, 4 , 9, 2, 7, 6, 1];
-    ctx.beginPath()
+function drawSigil(generatedPoints, word) {
+    const sigilPath = [];
+
+    for (const letter of word) {
+        
+        const upperLetter = letter.toUpperCase();
+        
+        const letterPosition = alphabet.indexOf(upperLetter);
+        
+        sigilPath.push(letterPosition);
+    }
+
+    ctx.beginPath();
     
     ctx.moveTo(
         generatedPoints[sigilPath[0]][0],
