@@ -71,10 +71,8 @@ function drawSigil(generatedPoints, word) {
     const sigilPath = [];
 
     for (const letter of word) {
-        
         const upperLetter = letter.toUpperCase();
-        
-        const letterPosition = alphabet.indexOf(upperLetter);
+        const letterPosition = alphabet.indexOf(upperLetter) % numberOfPoints;
         
         sigilPath.push(letterPosition);
     }
