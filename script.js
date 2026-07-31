@@ -71,11 +71,24 @@ function drawSigil(generatedPoints, word) {
     const sigilPath = [];
 
     for (const letter of word) {
-        const upperLetter = letter.toUpperCase();
-        const letterPosition = alphabet.indexOf(upperLetter) % numberOfPoints;
-        
-        sigilPath.push(letterPosition);
+        const upperLetter = letter.toUpperCase();        
+        const letterPosition = alphabet.indexOf(upperLetter);
+
+        if (letterPosition === -1) {
+            continue;
+        }
+        const pointIndex = letterPosition % numberOfPoints;
+
+        if (!sigilPath.includes(pointIndex)){
+            sigilPath.push(pointIndex);
+        }
     }
+
+
+    if (sigilPath.length < 2) {
+        return;
+    }
+
 
     ctx.beginPath();
     
@@ -84,7 +97,7 @@ function drawSigil(generatedPoints, word) {
         generatedPoints[sigilPath[0]][1]
     );
 
-    for (let i = 1; i <sigilPath.length; i++){
+    for (let i = 1; i < sigilPath.length; i++){
         const pointIndex = sigilPath[i];
 
         ctx.lineTo(
@@ -93,6 +106,12 @@ function drawSigil(generatedPoints, word) {
         );
 
     }
+    ctx.moveTo(centerX, centerY);
+    
+    ctx.lineTo(
+        generatedPoints[sigilPath[0]][0],
+        generatedPoints[sigilPath[0]][1]
+    );
 
     ctx.lineWidth = 3;
     ctx.stroke();
