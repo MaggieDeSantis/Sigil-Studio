@@ -17,20 +17,20 @@ const alphabet = [
 const button = document.getElementById("generateBtn");
 const colorPicker = document.getElementById("colorPicker");
 const randomBtn = document.getElementById("randomBtn");
-const downloadButton = document.getElementById("downloadBtn")
+const downloadButton = document.getElementById("downloadBtn");
+const removeDuplicateCheckbox = document.getElementById("removeDuplicates");
 
 
 button.addEventListener("click", function () {
 
     const word = document.getElementById("wordInput").value;
     const selectedColor = colorPicker.value;
-    
-    console.log(selectedColor);
+    const removeDuplicates = removeDuplicateCheckbox.checked;
 
-    drawCircle(word, selectedColor);
+    drawCircle(word, selectedColor, removeDuplicates);
 });
 
-function drawCircle(word, selectedColor){
+function drawCircle(word, selectedColor, removeDuplicates){
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
     
@@ -39,7 +39,7 @@ function drawCircle(word, selectedColor){
 
     const generatedPoints = generatePoints();
 
-    drawSigil(generatedPoints, word, selectedColor);
+    drawSigil(generatedPoints, word, selectedColor, removeDuplicates);
     }
 
 function drawOuterCircle() {
@@ -72,7 +72,7 @@ function generatePoints() {
 
 }
 
-function drawSigil(generatedPoints, word, selectedColor) {
+function drawSigil(generatedPoints, word, selectedColor, removeDuplicates) {
     const sigilPath = [];
 
     for (const letter of word) {
@@ -82,13 +82,17 @@ function drawSigil(generatedPoints, word, selectedColor) {
         if (letterPosition === -1) {
             continue;
         }
+        
         const pointIndex = letterPosition % numberOfPoints;
 
-        if (!sigilPath.includes(pointIndex)){
+        if (removeDuplicates) {
+            if(!sigilPath.includes(pointIndex)) {
+                sigilPath.push(pointIndex);
+            }
+        } else {
             sigilPath.push(pointIndex);
         }
     }
-
 
     if (sigilPath.length < 2) {
         return;
