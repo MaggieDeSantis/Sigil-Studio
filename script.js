@@ -17,6 +17,7 @@ const alphabet = [
 const button = document.getElementById("generateBtn");
 const colorPicker = document.getElementById("colorPicker");
 const randomBtn = document.getElementById("randomBtn");
+const downloadButton = document.getElementById("downloadBtn")
 
 
 button.addEventListener("click", function () {
@@ -142,5 +143,20 @@ function generateRandomWord() {
     const selectedColor = colorPicker.value;
 
     drawCircle(randomWord, selectedColor);
+
+}
+
+downloadButton.addEventListener("click", function (){
+    downloadSigil();
+});
+
+function downloadSigil() {
+
+    const image = canvas.toDataURL("image/png");
+    const link = document.createElement("a");
+   
+    link.href = image;
+    link.download = "sigil.png";
+    link.click();
 
 }
