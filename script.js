@@ -15,17 +15,21 @@ const alphabet = [
 ]
 
 const button = document.getElementById("generateBtn");
+const colorPicker = document.getElementById("colorPicker");
+const randomBtn = document.getElementById("randomBtn");
 
 
 button.addEventListener("click", function () {
-    const word = document.getElementById("wordInput").value;
-    
-    console.log(word);
 
-    drawCircle(word);
+    const word = document.getElementById("wordInput").value;
+    const selectedColor = colorPicker.value;
+    
+    console.log(selectedColor);
+
+    drawCircle(word, selectedColor);
 });
 
-function drawCircle(word){
+function drawCircle(word, selectedColor){
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
     
@@ -34,7 +38,7 @@ function drawCircle(word){
 
     const generatedPoints = generatePoints();
 
-    drawSigil(generatedPoints, word);
+    drawSigil(generatedPoints, word, selectedColor);
     }
 
 function drawOuterCircle() {
@@ -67,7 +71,7 @@ function generatePoints() {
 
 }
 
-function drawSigil(generatedPoints, word) {
+function drawSigil(generatedPoints, word, selectedColor) {
     const sigilPath = [];
 
     for (const letter of word) {
@@ -91,6 +95,8 @@ function drawSigil(generatedPoints, word) {
 
 
     ctx.beginPath();
+
+    ctx.strokeStyle = selectedColor;
     
     ctx.moveTo(
         generatedPoints[sigilPath[0]][0],
@@ -107,7 +113,7 @@ function drawSigil(generatedPoints, word) {
 
     }
     ctx.moveTo(centerX, centerY);
-    
+
     ctx.lineTo(
         generatedPoints[sigilPath[0]][0],
         generatedPoints[sigilPath[0]][1]
@@ -115,4 +121,21 @@ function drawSigil(generatedPoints, word) {
 
     ctx.lineWidth = 3;
     ctx.stroke();
+}
+
+randomBtn.addEventListener("click", function () {
+    generateRandomWord();
+});
+
+function generateRandomWord() {
+
+    const randomWords = [
+        "ROMANCE", "HEALTH", "ABUNDANCE", "JOY", "LOVE",
+        "CHAKRA", "POWER", "SHADOW", "STORMS", "CROWS",
+    ];
+
+    const randomIndex = Math.floor(Math.random() * randomWords.length);
+    const randomWord = randomWords[randomIndex];
+
+    alert(randomWord);
 }
