@@ -137,5 +137,10 @@ function generateRandomWord() {
     const randomIndex = Math.floor(Math.random() * randomWords.length);
     const randomWord = randomWords[randomIndex];
 
-    alert(randomWord);
+    document.getElementById("wordInput").value = randomWord;
+
+    const selectedColor = colorPicker.value;
+
+    drawCircle(randomWord, selectedColor);
+
 }
