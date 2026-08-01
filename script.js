@@ -1,3 +1,4 @@
+//main canvas
 const canvas = document.getElementById("sigilCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -6,6 +7,7 @@ const centerY = 250;
 const radius = 100;
 const numberOfPoints= 12;
 
+//letters for points
 const alphabet = [
     "A", "B", "C", "D", "E", "F",
     "G", "H", "I", "J", "K", "L",
@@ -14,34 +16,45 @@ const alphabet = [
     "Y", "Z"
 ]
 
+//main selections
 const button = document.getElementById("generateBtn");
 const colorPicker = document.getElementById("colorPicker");
 const randomBtn = document.getElementById("randomBtn");
 const downloadButton = document.getElementById("downloadBtn");
+
+//main settings 
 const removeDuplicateCheckbox = document.getElementById("removeDuplicates");
-const pointCountSelect = document.getElementById("pointCount")
+const pointCountSelect = document.getElementById("pointCount");
+const closeShapeCheckbox = document.getElementById("closeShape");
+const showCircleCheckbox = document.getElementById("showCircle");
 
-
+//Generate sigil button
 button.addEventListener("click", function () {
 
     const word = document.getElementById("wordInput").value;
     const selectedColor = colorPicker.value;
     const removeDuplicates = removeDuplicateCheckbox.checked;
     const selectedPointCount = Number(pointCountSelect.value);
+    const closeShape = closeShapeCheckbox.checked;
+    const showCircle = showCircleCheckbox.checked;
 
-    drawCircle(word, selectedColor, removeDuplicates, selectedPointCount);
+    drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
 });
 
-function drawCircle(word, selectedColor, removeDuplicates, selectedPointCount){
+//Draw circle codes
+function drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle){
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
     
-    drawOuterCircle();
+    if (showCircle) {
+        drawOuterCircle();
+    }
+
     drawCenterPoint();
 
     const generatedPoints = generatePoints(selectedPointCount);
 
-    drawSigil(generatedPoints, word, selectedColor, removeDuplicates, selectedPointCount);
+    drawSigil(generatedPoints, word, selectedColor, removeDuplicates, selectedPointCount, closeShape);
     }
 
 function drawOuterCircle() {
@@ -73,8 +86,8 @@ function generatePoints(selectedPointCount) {
     return generatedPoints;
 
 }
-
-function drawSigil(generatedPoints, word, selectedColor, removeDuplicates, selectedPointCount) {
+//Draw sigil itself code
+function drawSigil(generatedPoints, word, selectedColor, removeDuplicates, selectedPointCount, closeShape) {
     const sigilPath = [];
 
     for (const letter of word) {
@@ -119,6 +132,14 @@ function drawSigil(generatedPoints, word, selectedColor, removeDuplicates, selec
         );
 
     }
+
+    if (closeShape) {
+        ctx.lineTo(
+            generatedPoints[sigilPath[0]][0],
+            generatedPoints[sigilPath[0]][1]
+        );
+    }
+
     ctx.moveTo(centerX, centerY);
 
     ctx.lineTo(
@@ -134,6 +155,7 @@ randomBtn.addEventListener("click", function () {
     generateRandomWord();
 });
 
+//generates a random word or phrase
 function generateRandomWord() {
 
     const randomWords = [
@@ -149,8 +171,10 @@ function generateRandomWord() {
     const selectedColor = colorPicker.value;
     const removeDuplicates = removeDuplicateCheckbox.checked;
     const selectedPointCount = Number(pointCountSelect.value);
+    const closeShape = closeShapeCheckbox.checked;
+    const showCircle = showCircleCheckbox.checked;
 
-    drawCircle(randomWord, selectedColor, removeDuplicates, selectedPointCount);
+    drawCircle(randomWord, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
 
 }
 
