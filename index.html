@@ -9,40 +9,41 @@
 <body>
 
 <h1>Sigil Studio</h1>
-
-<canvas id="sigilCanvas" width="500" height="500"></canvas>
-
-<div class="controls">
-    <input type="text" id="wordInput" placeholder="Enter a word" />
-    <label for="colorPicker">Sigil color:</label>
-    <input type="color" id="colorPicker" value="#000000" >
-
-    <button id="generateBtn">Generate</button>
-    <button id="randomBtn">Random</button>
-    <button id="downloadBtn">Download PNG</button>
-</div>
+<div class="layout">
+    <div class="controls">
+        <label for="wordInput">Word or Intention:<br></label>
+        <input type="text" id="wordInput" placeholder="Enter a word" /><br><br>
+        <label for="colorPicker">Sigil color:</label>
+        <input type="color" id="colorPicker" value="#000000" >
+    <br>
     <label>
         <input type="checkbox" id="removeDuplicates" checked > 
-        Remove Duplicate Letters</label>
+        Remove Duplicate Letters</label><br>
 
-<br>
-<label for="pointCount">Points:</label>
-<select id="pointCount">
-    <option value="12" selected>12</option>
-    <option value="16">16</option>
-    <option value="24">34</option>
-</select>
-<br>
-<label>
-    <input type="checkbox" id="closeShape" checked>
-    Closed shape
-</label>
-<br> 
-<label>
-    <input type="checkbox" id="showCircle" checked>
-    Show circle
-</label>
+        <label for="pointCount">Points:</label>
+        <select id="pointCount">
+            <option value="12" selected>12</option>
+            <option value="16">16</option>
+            <option value="24">34</option>
+        </select><br>
+        <label>
+            <input type="checkbox" id="closeShape" checked>
+            Closed shape<br>
+        </label>
+        <label>
+            <input type="checkbox" id="showCircle" checked>
+            Show circle<br>
+        </label>
+        <button id="generateBtn">Generate</button><br>
+        <button id="randomBtn">Random</button><br><br><br>
+        <button id="downloadBtn">Download PNG</button><br>
 
+        </div>
+        
+        <canvas id="sigilCanvas" width="500" height="500"></canvas>
+
+        <h2>recent history</h2>
+    </div>
 <script src="script.js"></script>
 
 </body>
