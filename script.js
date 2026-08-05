@@ -28,6 +28,9 @@ const pointCountSelect = document.getElementById("pointCount");
 const closeShapeCheckbox = document.getElementById("closeShape");
 const showCircleCheckbox = document.getElementById("showCircle");
 
+//right side main 
+const historyList = document.getElementById("historyList");
+
 //Generate sigil button
 button.addEventListener("click", function () {
 
@@ -39,6 +42,8 @@ button.addEventListener("click", function () {
     const showCircle = showCircleCheckbox.checked;
 
     drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
+
+    addToHistory(word);
 });
 
 //Draw circle codes
@@ -176,6 +181,7 @@ function generateRandomWord() {
 
     drawCircle(randomWord, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
 
+    addToHistory(randomWord);
 }
 
 downloadButton.addEventListener("click", function (){
@@ -190,5 +196,26 @@ function downloadSigil() {
     link.href = image;
     link.download = "sigil.png";
     link.click();
+
+}
+
+//right side
+function addToHistory(word) {
+    const  historyItems = historyList.querySelectorAll("li");
+    for ( const item of historyItems) {
+        if (item.textContent === word) {
+            item.remove();
+        }
+    }
+
+    const listItem = document.createElement("li");
+
+    listItem.textContent = word;
+
+    historyList.prepend(listItem);
+
+    if (historyList.children.length > 10) {
+        historyList.removeChild(historyList.lastElementChild);
+    }
 
 }
