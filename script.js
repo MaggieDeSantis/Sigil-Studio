@@ -43,7 +43,7 @@ button.addEventListener("click", function () {
 
     drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
 
-    addToHistory(word);
+    addToHistory(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
 });
 
 //Draw circle codes
@@ -181,13 +181,14 @@ function generateRandomWord() {
 
     drawCircle(randomWord, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
 
-    addToHistory(randomWord);
+    addToHistory(randomWord, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
 }
 
 downloadButton.addEventListener("click", function (){
     downloadSigil();
 });
 
+//option to download sigil 
 function downloadSigil() {
 
     const image = canvas.toDataURL("image/png");
@@ -200,17 +201,46 @@ function downloadSigil() {
 }
 
 //right side
-function addToHistory(word) {
+
+//add to history
+function addToHistory(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle) {
     const  historyItems = historyList.querySelectorAll("li");
+    
     for ( const item of historyItems) {
-        if (item.textContent === word) {
-            item.remove();
+        if (
+            item.dataset.word === word &&
+            item.dataset.color === selectedColor &&
+            item.dataset.removeDuplicates === String(removeDuplicates) &&
+            item.dataset.pointCount === String(selectedPointCount) &&
+            item.dataset.closeShape === String(closeShape) &&
+            item.dataset.showCircle === String(showCircle)
+        ) {
+            item.remove()
         }
     }
 
     const listItem = document.createElement("li");
 
+    listItem.dataset.word = word;
+    listItem.dataset.color = selectedColor;
+    listItem.dataset.removeDuplicates = removeDuplicates;
+    listItem.dataset.pointCount = selectedPointCount;
+    listItem.dataset.closeShape = closeShape; 
+    listItem.dataset.showCircle = showCircle;
+
     listItem.textContent = word;
+
+    listItem.addEventListener("click", function () {
+        document.getElementById("wordInput").value = word;
+        colorPicker.value = selectedColor;
+        removeDuplicateCheckbox.checked = removeDuplicates;
+        pointCountSelect.value = selectedPointCount;
+        closeShapeCheckbox.checked = closeShape;
+        showCircleCheckbox.checked = showCircle;
+
+        drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle)
+
+    });
 
     historyList.prepend(listItem);
 
