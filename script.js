@@ -5,7 +5,6 @@ const ctx = canvas.getContext("2d");
 const centerX = 250;
 const centerY = 250;
 const radius = 100;
-const numberOfPoints= 12;
 
 //letters for points
 const alphabet = [
@@ -30,6 +29,7 @@ const showCircleCheckbox = document.getElementById("showCircle");
 
 //right side main 
 const historyList = document.getElementById("historyList");
+const favoritesList = document.getElementById("favoritesList");
 
 //Generate sigil button
 button.addEventListener("click", function () {
@@ -229,6 +229,16 @@ function addToHistory(word, selectedColor, removeDuplicates, selectedPointCount,
     listItem.dataset.showCircle = showCircle;
 
     listItem.textContent = word;
+//favorite button 
+    const favoriteButton  = document.createElement("button");
+    
+    favoriteButton.textContent = "☆";
+    
+    listItem.appendChild(favoriteButton);
+    favoriteButton.addEventListener("click", function(event) {
+        event.stopPropagation();
+        addToFavorites (word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle)
+    });
 
     listItem.addEventListener("click", function () {
         document.getElementById("wordInput").value = word;
@@ -247,5 +257,105 @@ function addToHistory(word, selectedColor, removeDuplicates, selectedPointCount,
     if (historyList.children.length > 10) {
         historyList.removeChild(historyList.lastElementChild);
     }
-
 }
+function addToFavorites(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle) {
+
+    const favoriteItems = favoritesList.querySelectorAll("li");
+
+    for (const item of favoriteItems) {
+        if (
+            item.dataset.word === word &&
+            item.dataset.color === selectedColor &&
+            item.dataset.removeDuplicates === String(removeDuplicates) &&
+            item.dataset.pointCount === String(selectedPointCount) &&
+            item.dataset.closeShape === String(closeShape) &&
+            item.dataset.showCircle === String(showCircle)
+        ) {
+            return;
+        }
+    }
+
+    const favoriteItem = document.createElement("li");
+
+    favoriteItem.dataset.word = word;
+    favoriteItem.dataset.color = selectedColor;
+    favoriteItem.dataset.removeDuplicates = removeDuplicates;
+    favoriteItem.dataset.pointCount = selectedPointCount;
+    favoriteItem.dataset.closeShape = closeShape;
+    favoriteItem.dataset.showCircle = showCircle;
+
+    favoriteItem.textContent =  word;
+
+    const removeFavoriteButton = document.createElement("button");
+
+    removeFavoriteButton.textContent ="×";
+
+    favoriteItem.appendChild(removeFavoriteButton);
+
+    removeFavoriteButton.addEventListener("click", function (event){
+        event.stopImmediatePropagation();
+
+        favoriteItem.remove();
+
+        saveFavorites();
+    });
+
+    favoriteItem.addEventListener("click", function() {
+        document.getElementById("wordInput").value = word;
+
+        colorPicker.value = selectedColor;
+        removeDuplicateCheckbox.checked = removeDuplicates;
+        pointCountSelect.value = selectedPointCount;
+        closeShapeCheckbox.checked = closeShape;
+        showCircleCheckbox.checked = showCircle;
+        
+        drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
+    });
+
+    favoritesList.prepend(favoriteItem);
+    
+    saveFavorites();
+}
+
+function saveFavorites() {
+
+    const favorites = [];
+    const favoriteItems = favoritesList.querySelectorAll("li");
+
+    for (const item of favoriteItems) {
+        favorites.push({
+            word: item.dataset.word,
+            color: item.dataset.color,
+            removeDuplicates: item.dataset.removeDuplicates,
+            pointCount: item.dataset.pointCount,
+            closeShape: item.dataset.closeShape,
+            showCircle: item.dataset.showCircle
+        });
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
+function loadFavorites() {
+
+    const savedFavorites = localStorage.getItem("favorites");
+
+    if (!savedFavorites) {
+        return;
+    }
+
+    const favorites = JSON.parse(savedFavorites);
+
+    for (const favorite of favorites) {
+        addToFavorites(
+            favorite.word,
+            favorite.color,
+            favorite.removeDuplicates === "true",
+            Number(favorite.pointCount),
+            favorite.closeShape === "true",
+            favorite.showCircle === "true"
+        );
+    }
+}
+
+loadFavorites();
