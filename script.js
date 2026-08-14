@@ -192,10 +192,12 @@ downloadButton.addEventListener("click", function (){
 function downloadSigil() {
 
     const image = canvas.toDataURL("image/png");
+    const word = document.getElementById("wordInput").value;
+    const fileName = word ? word.replaceAll(" ", "-") : "sigil";
     const link = document.createElement("a");
    
     link.href = image;
-    link.download = "sigil.png";
+    link.download = word ? fileName + "-sigil.png" : "sigil.png";
     link.click();
 
 }
@@ -215,7 +217,7 @@ function addToHistory(word, selectedColor, removeDuplicates, selectedPointCount,
             item.dataset.closeShape === String(closeShape) &&
             item.dataset.showCircle === String(showCircle)
         ) {
-            item.remove()
+            item.remove();
         }
     }
 
