@@ -20,7 +20,7 @@ const button = document.getElementById("generateBtn");
 const colorPicker = document.getElementById("colorPicker");
 const randomBtn = document.getElementById("randomBtn");
 const downloadButton = document.getElementById("downloadBtn");
-
+const clearButton = document.getElementById("clearBtn")
 //main settings 
 const removeDuplicateCheckbox = document.getElementById("removeDuplicates");
 const pointCountSelect = document.getElementById("pointCount");
@@ -55,8 +55,6 @@ function drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, c
         drawOuterCircle();
     }
 
-    drawCenterPoint();
-
     const generatedPoints = generatePoints(selectedPointCount);
 
     drawSigil(generatedPoints, word, selectedColor, removeDuplicates, selectedPointCount, closeShape);
@@ -84,9 +82,6 @@ function generatePoints(selectedPointCount) {
         const pointY = centerY + Math.sin(angle) * radius;
 
         generatedPoints.push([pointX, pointY]);
-        ctx.beginPath();
-        ctx.arc(pointX, pointY, 5, 0, Math.PI * 2);
-        ctx.fill();
         }
     return generatedPoints;
 
@@ -145,16 +140,15 @@ function drawSigil(generatedPoints, word, selectedColor, removeDuplicates, selec
         );
     }
 
-    ctx.moveTo(centerX, centerY);
-
-    ctx.lineTo(
-        generatedPoints[sigilPath[0]][0],
-        generatedPoints[sigilPath[0]][1]
-    );
-
     ctx.lineWidth = 3;
     ctx.stroke();
 }
+clearButton.addEventListener("click", function(){
+
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+    document.getElementById("wordInput").value = " ";
+})
+
 
 randomBtn.addEventListener("click", function () {
     generateRandomWord();
@@ -235,7 +229,8 @@ function addToHistory(word, selectedColor, removeDuplicates, selectedPointCount,
     const favoriteButton  = document.createElement("button");
     
     favoriteButton.textContent = "☆";
-    
+    favoriteButton.classList.add("favorite-button");
+        
     listItem.appendChild(favoriteButton);
     favoriteButton.addEventListener("click", function(event) {
         event.stopPropagation();
@@ -291,6 +286,7 @@ function addToFavorites(word, selectedColor, removeDuplicates, selectedPointCoun
     const removeFavoriteButton = document.createElement("button");
 
     removeFavoriteButton.textContent ="×";
+    removeFavoriteButton.classList.add("remove-favorite");
 
     favoriteItem.appendChild(removeFavoriteButton);
 
