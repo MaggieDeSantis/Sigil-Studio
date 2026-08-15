@@ -113,40 +113,96 @@ function drawSigil(generatedPoints, word, selectedColor, removeDuplicates, selec
         return;
     }
 
+    animateSigil(generatedPoints, sigilPath, selectedColor, closeShape);
+}
+
+function animateSigil(generatedPoints, sigilPath, selectedColor, closeShape) {
+    let currentIndex = 1;
 
     ctx.beginPath();
-
     ctx.strokeStyle = selectedColor;
-    
+
     ctx.moveTo(
         generatedPoints[sigilPath[0]][0],
         generatedPoints[sigilPath[0]][1]
     );
 
-    for (let i = 1; i < sigilPath.length; i++){
-        const pointIndex = sigilPath[i];
+    function drawNextLine() {
+        if (currentIndex >= sigilPath.length) {
 
-        ctx.lineTo(
-            generatedPoints[pointIndex][0],
-            generatedPoints[pointIndex][1]
-        );
+            if (closeShape) {
+                currentIndex = sigilPath.length;
 
+                const startPoint = generatedPoints[sigilPath[sigilPath.length - 1]];
+                const endPoint = generatedPoints[sigilPath[0]];
+
+                let progress = 0;
+
+                function drawClosingLine() {
+
+                    progress += 0.03;
+
+                    const currentX = startPoint[0] + (endPoint[0] - startPoint[0]) * progress;
+                    const currentY = startPoint[1] + (endPoint[1] - startPoint[1]) * progress;
+
+                    ctx.beginPath();
+                    ctx.moveTo(startPoint[0], startPoint[1]);
+                    ctx.lineTo(currentX, currentY);
+                    ctx.stroke();
+
+                    if (progress < 1) {
+                        requestAnimationFrame(drawClosingLine);
+                    }
+                  
+                }
+                 drawClosingLine();
+            }
+
+            return;
+        }
+
+        const pointIndex = sigilPath[currentIndex];
+        
+        const startPoint = generatedPoints[sigilPath[currentIndex - 1]];
+        const endPoint = generatedPoints[pointIndex];
+
+        let progress = 0;
+
+        function drawLine() {
+            
+            progress += 0.03;
+
+            const currentX = startPoint[0] + (endPoint[0] - startPoint[0]) * progress;
+            const currentY = startPoint[1] + (endPoint[1] - startPoint[1]) * progress;
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                startPoint[0],
+                startPoint[1]
+            );
+
+            ctx.lineTo(currentX, currentY);
+            ctx.stroke();
+
+            if (progress < 1) {
+                requestAnimationFrame(drawLine);
+            } else {
+                currentIndex++;
+                drawNextLine();
+            }
+        }
+        drawLine();
     }
 
-    if (closeShape) {
-        ctx.lineTo(
-            generatedPoints[sigilPath[0]][0],
-            generatedPoints[sigilPath[0]][1]
-        );
-    }
-
-    ctx.lineWidth = 3;
-    ctx.stroke();
+    drawNextLine();
 }
+
+
 clearButton.addEventListener("click", function(){
 
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    document.getElementById("wordInput").value = " ";
+    document.getElementById("wordInput").value = "";
 })
 
 
@@ -230,7 +286,7 @@ function addToHistory(word, selectedColor, removeDuplicates, selectedPointCount,
     
     favoriteButton.textContent = "☆";
     favoriteButton.classList.add("favorite-button");
-        
+
     listItem.appendChild(favoriteButton);
     favoriteButton.addEventListener("click", function(event) {
         event.stopPropagation();
