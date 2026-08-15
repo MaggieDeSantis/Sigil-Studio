@@ -1,7 +1,7 @@
 body{
     background:#494255;
     color: #c7badb;
-    font-family:Arial, sans-serif;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align:center;
     font-size: 12px;
 }
@@ -12,6 +12,7 @@ canvas {
     border: 2px solid rgba(103, 90, 104, 0.911);
     margin: 20px 0;
 }
+/** Left sidedbar options**/
 
 button {
     -moz-appearance: none;
@@ -32,9 +33,10 @@ button {
 }
 
 .controls {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 20px;
+    gap: 0;
     margin-top: 20px;
     min-width: 220px;
     font-size: 12px;
@@ -44,6 +46,13 @@ button {
 .controls input[type="text"] {
     width: 100%;
     box-sizing: border-box;
+
+    padding: 8px 10px;
+    border: 1px solid #000;
+    background: transparent;
+    color: #c7badb;
+
+    font-size: 13px;
 }
 
 .controls button,
@@ -68,6 +77,34 @@ button {
     gap: 30px;
     font-size: 12px;
 }
+
+.duplicate-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 6px 0;
+}
+
+.points-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.points-row select {
+    flex: 1;
+    margin-left: 10px;
+    padding: 6px 8px;
+
+    background: #554d61;
+    color: #c7c7c7;
+
+    border: 1px solid #000;
+    border-radius: 0;
+}
+
+/**right sidebar**/
 
 .favorite-button,
 .remove-favorite {

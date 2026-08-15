@@ -45,7 +45,7 @@ button.addEventListener("click", function () {
 
     drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle, circleColor);
 
-    addToHistory(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
+    addToHistory(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle, circleColor);
 });
 
 //Draw circle codes
