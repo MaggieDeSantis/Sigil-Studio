@@ -12,28 +12,44 @@
 <div class="layout">
     <div class="controls">
         <label for="wordInput">Word or Intention:<br></label>
-        <input type="text" id="wordInput" placeholder="Enter a word" /><br><br>
-        <label for="colorPicker">Sigil color:</label>
-        <input type="color" id="colorPicker" value="#000000" >
-    <br>
+        <input type="text" id="wordInput" placeholder="Enter a word" />
+           <br>
     <label>
         <input type="checkbox" id="removeDuplicates" checked > 
         Remove Duplicate Letters</label><br>
 
         <label for="pointCount">Points:</label>
+        
         <select id="pointCount">
             <option value="12" selected>12</option>
             <option value="16">16</option>
             <option value="26">26</option>
         </select><br>
-        <label>
-            <input type="checkbox" id="closeShape" checked>
-            Closed shape<br>
-        </label>
-        <label>
-            <input type="checkbox" id="showCircle" checked>
-            Show circle<br>
-        </label>
+        
+        <div class="option-row">
+            <label>
+                <input type="checkbox" id="closeShape" checked>
+                Closed shape<br>
+            </label>
+          
+            <label for="colorPicker">Sigil color:</label>
+       
+            <input type="color" id="colorPicker" value="#000000" >
+        </div>
+         
+        <div class="option-row">
+            <label>
+            
+                <input type="checkbox" id="showCircle" checked> 
+                Show circle<br>
+            
+            </label>
+            
+            <label for="circleColorPicker">Circle color:</label>
+            
+            <input type="color" id="circleColorPicker" value="#000000"> 
+        </div>
+       
         <button id="generateBtn">Generate</button><br>
         <button id="randomBtn">Random</button><br>
         <button id="clearBtn">Clear</button><br>
@@ -41,7 +57,8 @@
 
     </div>
         
-        <canvas id="sigilCanvas" width="500" height="500"></canvas>
+        <canvas id="sigilCanvas" width="350" height="350"></canvas>
+      
         <div class="Saved-Workings">
             <h3>recent</h3>
             <ul id="historyList"></ul>
@@ -49,7 +66,9 @@
             <h3>Favorites</h3>
             <ul id="favoritesList"></ul>
         </div>
+
     </div>
+
 <script src="script.js"></script>
 
 </body>

@@ -2,8 +2,8 @@
 const canvas = document.getElementById("sigilCanvas");
 const ctx = canvas.getContext("2d");
 
-const centerX = 250;
-const centerY = 250;
+const centerX = 175;
+const centerY = 175;
 const radius = 100;
 
 //letters for points
@@ -26,6 +26,7 @@ const removeDuplicateCheckbox = document.getElementById("removeDuplicates");
 const pointCountSelect = document.getElementById("pointCount");
 const closeShapeCheckbox = document.getElementById("closeShape");
 const showCircleCheckbox = document.getElementById("showCircle");
+const circleColorPicker = document.getElementById("circleColorPicker");
 
 //right side main 
 const historyList = document.getElementById("historyList");
@@ -40,24 +41,26 @@ button.addEventListener("click", function () {
     const selectedPointCount = Number(pointCountSelect.value);
     const closeShape = closeShapeCheckbox.checked;
     const showCircle = showCircleCheckbox.checked;
+    const circleColor = circleColorPicker.value;
 
-    drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
+    drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle, circleColor);
 
     addToHistory(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
 });
 
 //Draw circle codes
-function drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle){
+function drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle, circleColor){
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
     
     if (showCircle) {
+        ctx.strokeStyle = circleColor;
         drawOuterCircle();
     }
 
     const generatedPoints = generatePoints(selectedPointCount);
 
-    drawSigil(generatedPoints, word, selectedColor, removeDuplicates, selectedPointCount, closeShape);
+    drawSigil(generatedPoints, word, selectedColor, removeDuplicates, selectedPointCount, closeShape, circleColor);
     }
 
 function drawOuterCircle() {
@@ -87,7 +90,7 @@ function generatePoints(selectedPointCount) {
 
 }
 //Draw sigil itself code
-function drawSigil(generatedPoints, word, selectedColor, removeDuplicates, selectedPointCount, closeShape) {
+function drawSigil(generatedPoints, word, selectedColor, removeDuplicates, selectedPointCount, closeShape, circleColor) {
     const sigilPath = [];
 
     for (const letter of word) {
@@ -228,10 +231,11 @@ function generateRandomWord() {
     const selectedPointCount = Number(pointCountSelect.value);
     const closeShape = closeShapeCheckbox.checked;
     const showCircle = showCircleCheckbox.checked;
+    const circleColor = circleColorPicker.value;
 
-    drawCircle(randomWord, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
+    drawCircle(randomWord, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle, circleColor);
 
-    addToHistory(randomWord, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
+    addToHistory(randomWord, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle, circleColor);
 }
 
 downloadButton.addEventListener("click", function (){
@@ -255,7 +259,7 @@ function downloadSigil() {
 //right side
 
 //add to history
-function addToHistory(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle) {
+function addToHistory(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle, circleColor) {
     const  historyItems = historyList.querySelectorAll("li");
     
     for ( const item of historyItems) {
@@ -265,7 +269,8 @@ function addToHistory(word, selectedColor, removeDuplicates, selectedPointCount,
             item.dataset.removeDuplicates === String(removeDuplicates) &&
             item.dataset.pointCount === String(selectedPointCount) &&
             item.dataset.closeShape === String(closeShape) &&
-            item.dataset.showCircle === String(showCircle)
+            item.dataset.showCircle === String(showCircle) &&
+            item.dataset.circleColor === String(circleColor)
         ) {
             item.remove();
         }
@@ -279,6 +284,7 @@ function addToHistory(word, selectedColor, removeDuplicates, selectedPointCount,
     listItem.dataset.pointCount = selectedPointCount;
     listItem.dataset.closeShape = closeShape; 
     listItem.dataset.showCircle = showCircle;
+    listItem.dataset.circleColor = circleColor;
 
     listItem.textContent = word;
 //favorite button 
@@ -290,7 +296,7 @@ function addToHistory(word, selectedColor, removeDuplicates, selectedPointCount,
     listItem.appendChild(favoriteButton);
     favoriteButton.addEventListener("click", function(event) {
         event.stopPropagation();
-        addToFavorites (word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle)
+        addToFavorites (word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle, circleColor)
     });
 
     listItem.addEventListener("click", function () {
@@ -300,8 +306,9 @@ function addToHistory(word, selectedColor, removeDuplicates, selectedPointCount,
         pointCountSelect.value = selectedPointCount;
         closeShapeCheckbox.checked = closeShape;
         showCircleCheckbox.checked = showCircle;
+        circleColorPicker.value = circleColor;
 
-        drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle)
+        drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle, circleColor)
 
     });
 
@@ -311,7 +318,7 @@ function addToHistory(word, selectedColor, removeDuplicates, selectedPointCount,
         historyList.removeChild(historyList.lastElementChild);
     }
 }
-function addToFavorites(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle) {
+function addToFavorites(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle, circleColor) {
 
     const favoriteItems = favoritesList.querySelectorAll("li");
 
@@ -322,7 +329,8 @@ function addToFavorites(word, selectedColor, removeDuplicates, selectedPointCoun
             item.dataset.removeDuplicates === String(removeDuplicates) &&
             item.dataset.pointCount === String(selectedPointCount) &&
             item.dataset.closeShape === String(closeShape) &&
-            item.dataset.showCircle === String(showCircle)
+            item.dataset.showCircle === String(showCircle) &&
+            item.dataset.circleColor === String(circleColor)
         ) {
             return;
         }
@@ -336,6 +344,7 @@ function addToFavorites(word, selectedColor, removeDuplicates, selectedPointCoun
     favoriteItem.dataset.pointCount = selectedPointCount;
     favoriteItem.dataset.closeShape = closeShape;
     favoriteItem.dataset.showCircle = showCircle;
+    favoriteItem.dataset.circleColor = circleColor;
 
     favoriteItem.textContent =  word;
 
@@ -362,8 +371,9 @@ function addToFavorites(word, selectedColor, removeDuplicates, selectedPointCoun
         pointCountSelect.value = selectedPointCount;
         closeShapeCheckbox.checked = closeShape;
         showCircleCheckbox.checked = showCircle;
+        circleColorPicker.value = circleColor;
         
-        drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle);
+        drawCircle(word, selectedColor, removeDuplicates, selectedPointCount, closeShape, showCircle, circleColor);
     });
 
     favoritesList.prepend(favoriteItem);
@@ -383,7 +393,8 @@ function saveFavorites() {
             removeDuplicates: item.dataset.removeDuplicates,
             pointCount: item.dataset.pointCount,
             closeShape: item.dataset.closeShape,
-            showCircle: item.dataset.showCircle
+            showCircle: item.dataset.showCircle,
+            circleColor: item.dataset.circleColor
         });
     }
 
@@ -407,7 +418,8 @@ function loadFavorites() {
             favorite.removeDuplicates === "true",
             Number(favorite.pointCount),
             favorite.closeShape === "true",
-            favorite.showCircle === "true"
+            favorite.showCircle === "true",
+            favorite.circleColor
         );
     }
 }
