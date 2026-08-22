@@ -11,8 +11,10 @@
 <h1>Sigil Studio</h1>
 <div class="layout">
     <div class="controls">
-        <label for="wordInput">Word or Intention:<br></label>
-        <input type="text" id="wordInput" placeholder="Enter a word" />
+        <label for="wordInput">Word or Intention or</label>
+        <button id="randomBtn">press here for inspiration</button>
+        <p id="inspirationPrompt"></p>
+         <input type="text" id="wordInput" placeholder="Enter a word" />
     <div class="duplicate-row">
         <label>
             <input type="checkbox" id="removeDuplicates" checked > 
@@ -60,7 +62,6 @@
         </div>
        
         <button id="generateBtn">Generate</button>
-        <button id="randomBtn">Random</button>
         <button id="clearBtn">Clear</button>
         <button id="downloadBtn">Download PNG</button>
 

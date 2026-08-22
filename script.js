@@ -19,6 +19,7 @@ const alphabet = [
 const button = document.getElementById("generateBtn");
 const colorPicker = document.getElementById("colorPicker");
 const randomBtn = document.getElementById("randomBtn");
+const inspirationPrompt = document.getElementById("inspirationPrompt");
 const downloadButton = document.getElementById("downloadBtn");
 const clearButton = document.getElementById("clearBtn")
 //main settings 
@@ -216,36 +217,36 @@ clearButton.addEventListener("click", function(){
 })
 
 
+//generates a random inspiration prompt
+const inspirationPrompts = [
+    "What would you like to welcome?",
+    "What would you like to strengthen?",
+    "What would you like to grow?",
+    "What deserves more of your attention?",
+    "What would you like to protect?",
+    "What would you like to make easier?",
+    "What would you like to carry forward?",
+    "What would you like to create?",
+    "What quality would help you today?",
+    "What would you like to change?",
+    "What would you like to preserve?",
+    "What word feels important right now?"
+];
+let lastPromptIndex = -1;
+
 randomBtn.addEventListener("click", function () {
-    generateRandomWord();
+    let randomIndex;
+    
+    do {
+        randomIndex = Math.floor(
+            Math.random() * inspirationPrompts.length
+        );
+    } while (randomIndex === lastPromptIndex);
+
+    lastPromptIndex = randomIndex;
+
+    inspirationPrompt.textContent = inspirationPrompts[randomIndex];
 });
-
-//generates a random word or phrase
-function generateRandomWord() {
-
-    const randomWords = [
-        "ROMANCE", "HEALTH", "ABUNDANCE", "JOY", "LOVE",
-        "CHAKRA", "POWER", "SHADOW", "STORMS", "CROWS",
-    ];
-
-    const randomIndex = Math.floor(Math.random() * randomWords.length);
-    const randomWord = randomWords[randomIndex];
-
-    document.getElementById("wordInput").value = randomWord;
-
-    const selectedColor = colorPicker.value;
-    const removeDuplicates = removeDuplicateCheckbox.checked;
-    const removeVowels = removeVowelsCheckbox.checked
-    const selectedPointCount = Number(pointCountSelect.value);
-    const closeShape = closeShapeCheckbox.checked;
-    const showCircle = showCircleCheckbox.checked;
-    const circleColor = circleColorPicker.value;
-
-    drawCircle(randomWord, selectedColor, removeDuplicates, removeVowels,selectedPointCount, closeShape, showCircle, circleColor);
-
-    addToHistory(randomWord, selectedColor, removeDuplicates, removeVowels, selectedPointCount, closeShape, showCircle, circleColor);
-}
-
 downloadButton.addEventListener("click", function (){
     downloadSigil();
 });
@@ -313,6 +314,7 @@ function addToHistory(word, selectedColor, removeDuplicates, removeVowels, selec
         document.getElementById("wordInput").value = word;
         colorPicker.value = selectedColor;
         removeDuplicateCheckbox.checked = removeDuplicates;
+        removeVowelsCheckbox.checked = removeVowels;
         pointCountSelect.value = selectedPointCount;
         closeShapeCheckbox.checked = closeShape;
         showCircleCheckbox.checked = showCircle;
@@ -379,6 +381,7 @@ function addToFavorites(word, selectedColor, removeDuplicates, removeVowels, sel
 
         colorPicker.value = selectedColor;
         removeDuplicateCheckbox.checked = removeDuplicates;
+        removeVowelsCheckbox.checked = removeVowels;
         pointCountSelect.value = selectedPointCount;
         closeShapeCheckbox.checked = closeShape;
         showCircleCheckbox.checked = showCircle;
